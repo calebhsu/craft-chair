@@ -1,5 +1,5 @@
 # craft-chair
----
+
 Parameterized chair model.
 
 ### Install
