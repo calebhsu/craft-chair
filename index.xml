@@ -2,19 +2,22 @@
 	 <parameter name="size" type="int" default="1"/>
 	 <parameter name="legHeight" type="int" default="14"/>
 	 <parameter name="length" type="int" default="15"/>
-	 <script type="text/openjscad">	 
+	 <parameter name="width" type="int" default="15"/>
+	 <script type="text/openjscad">
 
 	function main(params) {
 	    var size = params.size;
 	    var legHeight = params.legHeight;
 	    var length = params.length;
+	    var width = params.width;
 	    
-	    return chair({'length': length, 'legHeight': legHeight}).scale(size);
+	    return chair({'length': length, 'legHeight': legHeight, 'width': width}).scale(size);
 	}
 
 	function chair(params) {
 	    var legHeight = params.legHeight;
 	    var length = params.length;
+	    var width = params.width;
 	    var c, d;
 	    var backMain, backDome, backSupportL, backSupportR;
 	    var leg, legSupport, legSupportL, legSupportR, legFL, legBL, legFR, legBR;
@@ -25,12 +28,12 @@
 
 	    // seat components
 	    // seat base
-	    c = cube({size: [length, 15, 1.5]}).translate([0, 0, 14]);
+	    c = cube({size: [length, width, 1.5]}).translate([0, 0, 14]);
 
 	    // seat back
-	    backMain = cube({size: [1, 15, 7.5]});
+	    backMain = cube({size: [1, width, 7.5]});
 	    backDome = cylinder({
-	        r: 6.5, 
+	        r: (width - 2) / 2, 
 	        h: 1
 	    });
 	    backSupportL = cube({size: [2, 2, 16]});
@@ -38,9 +41,13 @@
 	    
 	    // seat back transformations
 	    backMain = backMain.translate([0.2, 0, 10]);
-	    backDome = rotate([0, 90, 0], backDome).translate([0.2, 7.5, 18.5]);
+	    backDome = difference(
+	    	backDome,
+	    	cube({size: [width / 2, width, 1]}).translate([1, -width / 2, 0])
+	    );
+	    backDome = rotate([0, 90, 0], backDome).translate([0.2, width / 2, 18.5]);
 	    backSupportL = backSupportL.translate([0, 0, 7]);
-	    backSupportR = backSupportR.translate([0, 13, 7]);
+	    backSupportR = backSupportR.translate([0, width - 2, 7]);
 
 	    d = union(
 	        backMain, 
@@ -59,12 +66,12 @@
 	    
 	    // leg transformations
 	    legFL = leg.translate([length - 2, 0, 14 - legHeight]);
-	    legFR = leg.translate([length - 2, 13, 14 - legHeight]);
+	    legFR = leg.translate([length - 2, width - 2, 14 - legHeight]);
 	    legBL = leg.translate([0, 0, 14 - legHeight]);
-	    vlegBR = leg.translate([0, 13, 14 - legHeight]);
+	    legBR = leg.translate([0, width - 2, 14 - legHeight]);
 	    
 	    legSupportL = legSupport.translate([1, 0, 17 - legHeight]);
-	    legSupportR = legSupport.translate([1, 13.5, 17 - legHeight]);
+	    legSupportR = legSupport.translate([1, width - 1.5, 17 - legHeight]);
 	    
 	    return union(
 	        d, 

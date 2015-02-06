@@ -7,8 +7,9 @@ Parameterized chair model.
 
 ### Parameters
 - size: scales model
-- leg_height: adjusts height of chair legs
+- legHeight: adjusts height of chair legs
 - length: adjusts length of seat
+- width: adjusts width of seat
 
 ### Example
 ```html
