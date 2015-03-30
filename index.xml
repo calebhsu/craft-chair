@@ -1,85 +1,73 @@
 <craft>
-	<parameter name="size" type="int" default="1"/>
-	<parameter name="legHeight" type="int" default="14"/>
-	<parameter name="length" type="int" default="15"/>
-	<parameter name="width" type="int" default="15"/>
-	<script type="text/openjscad">
+    <parameter name="legHeight" type="int" default="14"/>
+    <parameter name="length" type="int" default="15"/>
+    <parameter name="width" type="int" default="15"/>
+    <script type="text/openjscad">
 
-		function main(params) {
-		    var size = params.size;
-		    var legHeight = params.legHeight;
-		    var length = params.length;
-		    var width = params.width;
-		    
-		    return chair({'length': length, 'legHeight': legHeight, 'width': width}).scale(size);
+        function main() {          
+            var c, d;
+            var backMain, backDome, backSupportL, backSupportR;
+            var leg, legSupport, legSupportL, legSupportR, legFL, legBL, legFR, legBR;
 
-		    function chair() {
-			    var c, d;
-			    var backMain, backDome, backSupportL, backSupportR;
-			    var leg, legSupport, legSupportL, legSupportR, legFL, legBL, legFR, legBR;
+            if (params.legHeight < 5)
+                params.legHeight = 5;
 
-			    if (legHeight < 5)
-			        legHeight = 5;
+            // seat components
+            // seat base
+            c = cube({size: [params.length, params.width, 1.5]}).translate([0, 0, 14]);
 
+            // seat back
+            backMain = cube({size: [1, params.width, 7.5]});
+            backDome = cylinder({
+                r: (params.width - 2) / 2, 
+                h: 1
+            });
+            backSupportL = cube({size: [2, 2, 16]});
+            backSupportR = backSupportL;
+            
+            // seat back transformations
+            backMain = backMain.translate([0.2, 0, 10]);
+            backDome = difference(
+                backDome,
+                cube({size: [params.width / 2, params.width, 1]}).translate([1, -params.width / 2, 0])
+            );
+            backDome = rotate([0, 90, 0], backDome).translate([0.2, params.width / 2, 18.5]);
+            backSupportL = backSupportL.translate([0, 0, 7]);
+            backSupportR = backSupportR.translate([0, params.width - 2, 7]);
 
-			    // seat components
-			    // seat base
-			    c = cube({size: [length, width, 1.5]}).translate([0, 0, 14]);
+            d = union(
+                backMain, 
+                backDome, 
+                backSupportL, 
+                backSupportR
+            ).translate([0, 0, 8]);
 
-			    // seat back
-			    backMain = cube({size: [1, width, 7.5]});
-			    backDome = cylinder({
-			        r: (width - 2) / 2, 
-			        h: 1
-			    });
-			    backSupportL = cube({size: [2, 2, 16]});
-			    backSupportR = backSupportL;
-			    
-			    // seat back transformations
-			    backMain = backMain.translate([0.2, 0, 10]);
-			    backDome = difference(
-			    	backDome,
-			    	cube({size: [width / 2, width, 1]}).translate([1, -width / 2, 0])
-			    );
-			    backDome = rotate([0, 90, 0], backDome).translate([0.2, width / 2, 18.5]);
-			    backSupportL = backSupportL.translate([0, 0, 7]);
-			    backSupportR = backSupportR.translate([0, width - 2, 7]);
+            d = union(c, d);    // seat base + back
 
-			    d = union(
-			        backMain, 
-			        backDome, 
-			        backSupportL, 
-			        backSupportR
-			    ).translate([0, 0, 8]);
-
-			    d = union(c, d);	// seat base + back
-
-
-			    // leg components
-			    // legs
-			    leg = cube({size: [2, 2, legHeight]});
-			    legSupport = cube({size: [length - 1, 1.5, 1.5]});
-			    
-			    // leg transformations
-			    legFL = leg.translate([length - 2, 0, 14 - legHeight]);
-			    legFR = leg.translate([length - 2, width - 2, 14 - legHeight]);
-			    legBL = leg.translate([0, 0, 14 - legHeight]);
-			    legBR = leg.translate([0, width - 2, 14 - legHeight]);
-			    
-			    legSupportL = legSupport.translate([1, 0, 17 - legHeight]);
-			    legSupportR = legSupport.translate([1, width - 1.5, 17 - legHeight]);
-			    
-			    return union(
-			        d, 
-			        legFL, 
-			        legFR, 
-			        legBL, 
-			        legBR, 
-			        legSupportL, 
-			        legSupportR
-			    );
-			}
-		}
-		
+            // leg components
+            // legs
+            leg = cube({size: [2, 2, params.legHeight]});
+            legSupport = cube({size: [params.length - 1, 1.5, 1.5]});
+            
+            // leg transformations
+            legFL = leg.translate([params.length - 2, 0, 14 - params.legHeight]);
+            legFR = leg.translate([params.length - 2, params.width - 2, 14 - params.legHeight]);
+            legBL = leg.translate([0, 0, 14 - params.legHeight]);
+            legBR = leg.translate([0, params.width - 2, 14 - params.legHeight]);
+            
+            legSupportL = legSupport.translate([1, 0, 17 - params.legHeight]);
+            legSupportR = legSupport.translate([1, params.width - 1.5, 17 - params.legHeight]);
+            
+            return union(
+                d, 
+                legFL, 
+                legFR, 
+                legBL, 
+                legBR, 
+                legSupportL, 
+                legSupportR
+            );
+        }
+        
     </script>
 </craft>
