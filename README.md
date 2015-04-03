@@ -3,10 +3,9 @@
 Parameterized chair model.
 
 ### Install
-	$ npm install craft-chair
+    $ npm install craft-chair
 
 ### Parameters
-- size: scales model
 - legHeight: adjusts height of chair legs
 - length: adjusts length of seat
 - width: adjusts width of seat
@@ -14,9 +13,13 @@ Parameterized chair model.
 ### Example
 ```html
 <craft>
-	<craft name="chair" module="craft-chair"/>
-	<chair size="2"></chair>
-	<chair></chair>
+    <craft name="chair" module="calebhsu/craft-chair"/>
+    <lineup spacing="2">
+        <scale factor="2">
+            <chair></chair>
+        </scale>
+        <chair></chair>        
+    </lineup>
 </craft>
 ```
 
