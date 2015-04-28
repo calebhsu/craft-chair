@@ -1,4 +1,4 @@
-<craft>
+<craft name="chair">
     <parameter name="legHeight" type="int" default="14"/>
     <parameter name="length" type="int" default="15"/>
     <parameter name="width" type="int" default="15"/>
