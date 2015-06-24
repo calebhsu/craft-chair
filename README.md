@@ -13,13 +13,11 @@ Parameterized chair model.
 ### Example
 ```html
 <craft>
-    <craft name="chair" module="calebhsu/craft-chair"/>
-    <lineup spacing="2">
-        <scale factor="2">
-            <chair></chair>
-        </scale>
+    <craft name="chair" module="craft-chair"/>
+    <row spacing="2">
+        <chair transform="scale(2,2,2)"></chair>
         <chair></chair>        
-    </lineup>
+    </row>
 </craft>
 ```
 
