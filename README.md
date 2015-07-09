@@ -12,8 +12,11 @@ Parameterized chair model.
 
 ### Parameters
 - legHeight: adjusts height of chair legs
+	- default: 14
 - length: adjusts length of seat
+	- default: 15
 - width: adjusts width of seat
+	- default: 15
 
 ### Example
 ```html
