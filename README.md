@@ -2,8 +2,13 @@
 
 Parameterized chair model.
 
-### Install
-    $ npm install craft-chair
+### Usage
+```html
+<craft>
+    <craft name="chair" module="craft-chair"/>
+    <chair></chair> 
+</craft>
+```
 
 ### Parameters
 - legHeight: adjusts height of chair legs
